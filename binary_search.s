@@ -83,7 +83,7 @@ cmpindex:
     blt t6 t2 getaddr
     lw t4 0(t5)                      # t4 = nums[mid]
     beq t4 a2 retmid                 # if nums[mid] = target, go to retmid
-    blt t4 a2 ch_left                # if nums[mid] < target, go to ch_left
+    blt t4 a2 change_left            # if nums[mid] < target, go to ch_left
     addi t1 t2 -1                    # else, right = mid - 1
     j left_right_comp                # back to while loop
 
@@ -96,7 +96,7 @@ retmid:
     addi a0 t6 0                     # copy t6 to a0 for return
     ret
 
-ch_left:
+change_left:
     addi t0 t2 1                     # left = mid + 1
     j left_right_comp                # back to while loop
 
