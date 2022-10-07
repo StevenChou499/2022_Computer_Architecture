@@ -25,7 +25,6 @@ search:
     # for temp, t0: left, t1: right, t2: mid
     add t0 x0 x0                     # left = 0
     addi t1 a1 -1                    # right = numsSize - 1
-    #add t5 a0 x0
 
 while_loop:
     bge t1 t0 get_mid
