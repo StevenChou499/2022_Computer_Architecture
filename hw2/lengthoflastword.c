@@ -25,7 +25,7 @@ int lengthOfLastWord(char *s){
 
 int main()
 {
-	char *str1 = "World";
+	char *str1 = "Hello World";
 	char *str2 = "I am a student  ";
 	char *str3 = "a";
 	int len1 = lengthOfLastWord(str1);
