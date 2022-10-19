@@ -35,9 +35,9 @@ _start:
         addi        a3, x0, 1         # initialize length = 1
         # find the position of the last letter is not space
         jal         ra, strlen        # call strlen()
-        # la          a1, str1
-        # li          a2, str1len
-        # jal print_result
+        la          a1, str1
+        li          a2, str1len
+        jal print_result
 
         la          a1, str2
         lb          a2, space
@@ -45,9 +45,9 @@ _start:
         addi        a3, x0, 1         # initialize length = 1
         # find the position of the last letter is not space
         jal         ra, strlen        # call strlen()
-        # la          a1, str2
-        # li          a2, str2len
-        # jal print_result
+        la          a1, str2
+        li          a2, str2len
+        jal print_result
         
         la          a1, str3
         lb          a2, space
@@ -55,9 +55,9 @@ _start:
         addi        a3, x0, 1         # initialize length = 1
         # find the position of the last letter is not space
         jal         ra, strlen        # call strlen()
-        # la          a1, str3
-        # li          a2, str3len
-        # jal print_result
+        la          a1, str3
+        li          a2, str3len
+        jal print_result
 
         li          a0, 0             # return value is 0
         li          a7, SYSEXIT       # end
