@@ -1,6 +1,8 @@
 #include <stdio.h>
 
 int lengthOfLastWord(char *s){
+    if (!*s)
+        return 0;
 	int i = 0;
 	char *head = s;
     while (*s) {
@@ -11,13 +13,14 @@ int lengthOfLastWord(char *s){
 	int length = 0;
 	s = s + i - 1;
 	
-	while(*s == ' '){
-	s--;
+	while(i && *s == ' '){
+	    s--;
+        i--;
 	}
 
-	while(*s != ' ' && i--){
-	s--;
-	length++;
+	while(i-- && *s != ' '){
+	    s--;
+	    length++;
 	}
 
 	return length;
@@ -34,6 +37,6 @@ int main()
 	// printf("For string \"%s\", Length of last word : %d\n", str1, len1);
 	// printf("For string \"%s\", Length of last word : %d\n", str2, len2);
 	// printf("For string \"%s\", Length of last word : %d\n", str3, len3);
-	
+
 	return 0;
 }

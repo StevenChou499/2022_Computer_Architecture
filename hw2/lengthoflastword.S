@@ -9,7 +9,7 @@
 .data
 str1:       .string "Hello World"
             .set str1len, .-str1
-str2:       .string "i am a student  "  
+str2:       .string "I am a student  "  
             .set str2len, .-str2
 str3:       .string "a"
             .set str3len, .-str3
@@ -61,12 +61,19 @@ _start:
 
         li          a0, 0             # return value is 0
         li          a7, SYSEXIT       # end
-        ecall 
+        ecall
+
+nochar:
+        li          a3, 0
+        ret
 strlen:
+        lb          t0, 0(a1)
+        beq         t0, x0, nochar
+findend:
         addi        a1, a1, 1         # find the last position of the string
         addi        a4, a4, 1
         lb          t0, 0(a1)
-        bne         t0, x0, strlen
+        bne         t0, x0, findend
 loop1:                             
         addi        a1, a1, -1        # s--
         addi        a4, a4, -1        # the last position is not space
