@@ -34,9 +34,9 @@ int main()
 	int len1 = lengthOfLastWord(str1);
 	int len2 = lengthOfLastWord(str2);
 	int len3 = lengthOfLastWord(str3);
-	printf("For string \"%s\", Length of last word : %d\n", str1, len1);
-	printf("For string \"%s\", Length of last word : %d\n", str2, len2);
-	printf("For string \"%s\", Length of last word : %d\n", str3, len3);
+	printf("For string \"%s\", length of last word : %d\n", str1, len1);
+	printf("For string \"%s\", length of last word : %d\n", str2, len2);
+	printf("For string \"%s\", length of last word : %d\n", str3, len3);
 
 	return 0;
 }
