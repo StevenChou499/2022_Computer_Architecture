@@ -14,9 +14,9 @@ str2:       .string "I am a student  "
 str3:       .string "a"
             .set str3len, .-str3
 space:      .string " "
-fstr:       .string "For string : \""
+fstr:       .string "For string \""
             .set flen, .-fstr
-answrstr:   .string "\", length of last word is "
+answrstr:   .string "\", length of last word : "
             .set answrlen, .-answrstr  
 newline:    .string "\n"
             .set nllen, .-newline
