@@ -7,11 +7,11 @@
 .set SYSWRITE, 64
 
 .data
-str1:       .string "Hello World"
+str1:       .string "                aaaa                "
             .set str1len, .-str1
-str2:       .string "I am a student  "
+str2:       .string "aaaaaaaa                    aaaaaaaa"
             .set str2len, .-str2
-str3:       .string "a"
+str3:       .string "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa a "
             .set str3len, .-str3
 fstr:       .string "For string \""
             .set flen, .-fstr
