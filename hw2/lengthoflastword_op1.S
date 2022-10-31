@@ -7,11 +7,11 @@
 .set SYSWRITE, 64
 
 .data
-str1:       .string "Hello World"
+str1:       .string "                aaaa                "
             .set str1len, .-str1
-str2:       .string "I am a student  "
+str2:       .string "aaaaaaaa                    aaaaaaaa"
             .set str2len, .-str2
-str3:       .string "a"
+str3:       .string "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa a "
             .set str3len, .-str3
 fstr:       .string "For string \""
             .set flen, .-fstr
@@ -83,13 +83,13 @@ findend:
         add         a2, a2, a3
         addi        a1, a2, -2
         j           findword
-what:
+checkalign:
         beq         a3, x0, starttraverse
 unaligned:
         lbu         a2, 0(a1)
         addi        a1, a1, 1
         andi        a3, a1, 3
-        bne         a2, x0, what
+        bne         a2, x0, checkalign
         sub         a1, a1, a0
         addi        a1, a1, -1
         j           findword
@@ -101,6 +101,8 @@ sub3:
         j           findword
 findword:
         li          a2, 32            # store space to register a2
+        add         a0, a1, a0
+        addi        a1, a1, 1
 loop1:
         # now we reach the end of the string
         beq         a1, x0, return    # if encounter the last position, return
