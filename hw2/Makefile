@@ -10,14 +10,8 @@ LDFLAGS = --oformat=elf32-littleriscv
 
 normal: lengthoflastword.elf
 
-optimized: lengthoflastword_op1.elf
-
 lengthoflastword.elf: lengthoflastword.o
-	 $(CROSS_COMPILE)ld -o $@ -T lengthoflastword.ld $(LDFLAGS) $<
-
-lengthoflastword_op1.elf: lengthoflastword_op1.o
 	 $(CROSS_COMPILE)ld -o $@ -T lengthoflastword.ld $(LDFLAGS) $<
 
 clean:
 	$(RM) lengthoflastword.elf lengthoflastword.o
-	$(RM) lengthoflastword_op0.elf lengthoflastword_op0.o

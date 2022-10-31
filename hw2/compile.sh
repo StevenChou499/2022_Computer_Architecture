@@ -1,12 +1,22 @@
-riscv-none-elf-gcc -R -march=rv32i -mabi=ilp32 -O0 -o lengthoflastwordO0.elf lengthoflastword.c
-riscv-none-elf-objdump -D lengthoflastwordO0.elf > disassO0
-riscv-none-elf-gcc -R -march=rv32i -mabi=ilp32 -O1 -o lengthoflastwordO1.elf lengthoflastword.c
-riscv-none-elf-objdump -D lengthoflastwordO1.elf > disassO1
-riscv-none-elf-gcc -R -march=rv32i -mabi=ilp32 -O2 -o lengthoflastwordO2.elf lengthoflastword.c
-riscv-none-elf-objdump -D lengthoflastwordO2.elf > disassO2
-riscv-none-elf-gcc -R -march=rv32i -mabi=ilp32 -O3 -o lengthoflastwordO3.elf lengthoflastword.c
-riscv-none-elf-objdump -D lengthoflastwordO3.elf > disassO3
-riscv-none-elf-gcc -R -march=rv32i -mabi=ilp32 -Os -o lengthoflastwordOs.elf lengthoflastword.c
-riscv-none-elf-objdump -D lengthoflastwordOs.elf > disassOs
-riscv-none-elf-gcc -R -march=rv32i -mabi=ilp32 -Ofast -o lengthoflastwordOfast.elf lengthoflastword.c
-riscv-none-elf-objdump -D lengthoflastwordOfast.elf > disassOfast
+rm -f lengthoflastword_op0.elf lengthoflastword_op1.elf
+
+riscv-none-elf-as -R -march=rv32i -mabi=ilp32 -o \
+    lengthoflastword_op0.o lengthoflastword_op0.S
+riscv-none-elf-as -R -march=rv32i -mabi=ilp32 -o \
+    lengthoflastword_op1.o lengthoflastword_op1.S
+
+riscv-none-elf-ld -o lengthoflastword_op0.elf -T \
+    lengthoflastword.ld --oformat=elf32-littleriscv \
+    lengthoflastword_op0.o
+
+riscv-none-elf-ld -o lengthoflastword_op1.elf -T \
+    lengthoflastword.ld --oformat=elf32-littleriscv \
+    lengthoflastword_op1.o
+
+riscv-none-elf-size lengthoflastword_op0.elf
+../rv32emu/build/rv32emu --stats lengthoflastword_op0.elf
+
+echo -e
+
+riscv-none-elf-size lengthoflastword_op1.elf
+../rv32emu/build/rv32emu --stats lengthoflastword_op1.elf
