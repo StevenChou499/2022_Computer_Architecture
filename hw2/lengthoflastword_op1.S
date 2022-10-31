@@ -58,31 +58,65 @@ nochar:
 lengthoflastword:
         lb          t0, 0(a0)
         beq         t0, x0, nochar
-        addi        a2, x0, 1         # there are at least one character
-        add         a1, x0, a0        # store the starting address in a1
+        
+        andi        a2, a0, 3
+        add         a1, x0, a0        # a1 = a0
+        bne         a2, x0, unaligned # jump if the address is unaligned
+starttraverse:
+        lui         a3, 0x7F7F8
+        addi        a3, a3, -129      # now a3 is 0x7F7F7F7F
+        addi        a4, x0, -1        # a4 = -1
 findend:
-        # a1 : moving pointer untill we reach the end of the string
-        # a2 : counting the number of characters
-        addi        a1, a1, 1         # find the last position of the string
-        addi        a2, a2, 1
-        lb          t0, 0(a1)
-        bne         t0, x0, findend
-        li          a3, 32            # store space to register a3
+        lw          a2, 0(a1)
+        addi        a1, a1, 4
+        and         a5, a2, a3
+        add         a5, a5, a3
+        or          a5, a5, a3
+        beq         a5, a4, findend
+        lbu         a2, -4(a1)
+        sub         a3, a1, a0
+        beq         a2, x0, sub4
+        lbu         a2, -3(a1)
+        beq         a2, x0, sub3
+        lbu         a2, -2(a1)
+        snez        a2, a2
+        add         a2, a2, a3
+        addi        a1, a2, -2
+        j           findword
+what:
+        beq         a3, x0, starttraverse
+unaligned:
+        lbu         a2, 0(a1)
+        addi        a1, a1, 1
+        andi        a3, a1, 3
+        bne         a2, x0, what
+        sub         a1, a1, a0
+        addi        a1, a1, -1
+        j           findword
+sub4:
+        addi        a1, a3, -4
+        j           findword
+sub3:
+        addi        a1, a3, -3
+        j           findword
+findword:
+        li          a2, 32            # store space to register a2
 loop1:
         # now we reach the end of the string
-        beq         a2, x0, return    # if encounter the last position, return
-        addi        a1, a1, -1        # s--
-        addi        a2, a2, -1        # the last position is not space
-        lb          t0, 0(a1)         # t0 = s[i]
-        beq         t0, a3, loop1     # while(char[i] == " ")
+        beq         a1, x0, return    # if encounter the last position, return
+        addi        a0, a0, -1        # s--
+        addi        a1, a1, -1        # the last position is not space
+        lb          t0, 0(a0)         # t0 = s[i]
+        beq         t0, a2, loop1     # while(char[i] == " ")
+        add         a3, x0, a0        # a3 = a0
         add         a0, x0, x0
 loop2:
-        beq         a2, x0, return    # if encounter the last position, return
-        addi        a2, a2, -1
+        beq         a1, x0, return    # if encounter the last position, return
         addi        a1, a1, -1
+        addi        a3, a3, -1
         addi        a0, a0, 1         # s++
-        lb          t0, 0(a1)         # t0 = s[i]
-        bne         t0, a3, loop2     
+        lb          t0, 0(a3)         # t0 = s[i]
+        bne         t0, a2, loop2     
 return:
         ret
 
