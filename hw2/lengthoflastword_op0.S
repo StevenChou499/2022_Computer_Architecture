@@ -9,7 +9,7 @@
 .data
 str1:       .string "Hello World"
             .set str1len, .-str1
-str2:       .string "I am a student  "  
+str2:       .string "I am a student  "
             .set str2len, .-str2
 str3:       .string "a"
             .set str3len, .-str3
@@ -21,20 +21,32 @@ newline:    .string "\n"
             .set nllen, .-newline
 
 .text
-# a1 = str1 address
-# a2 = space
-# a3 = length
-# a4 = filter
-
 _start:
         # function : lengthOfLastWord(char * s)
+        # a0 : pointer to the start of the string
         la          a0, str1
         # find the position of the last letter is not space
         jal         ra, lengthoflastword        # call strlen()
         add         a2, x0, a0
         la          a0, str1
         li          a1, str1len
-        jal print_result
+        jal         print_result
+
+        la          a0, str2
+        # find the position of the last letter is not space
+        jal         ra, lengthoflastword        # call strlen()
+        add         a2, x0, a0
+        la          a0, str2
+        li          a1, str2len
+        jal         print_result
+
+        la          a0, str3
+        # find the position of the last letter is not space
+        jal         ra, lengthoflastword        # call strlen()
+        add         a2, x0, a0
+        la          a0, str3
+        li          a1, str3len
+        jal         print_result
 
         li          a0, 0             # return value is 0
         li          a7, SYSEXIT       # end
@@ -46,30 +58,33 @@ nochar:
 lengthoflastword:
         lb          t0, 0(a0)
         beq         t0, x0, nochar
+        addi        a2, x0, 1         # there are at least one character
+        add         a1, x0, a0        # store the starting address in a1
 findend:
-        addi        a0, a0, 1         # find the last position of the string
-        addi        a4, a4, 1
-        lb          t0, 0(a0)
+        # a1 : moving pointer untill we reach the end of the string
+        # a2 : counting the number of characters
+        addi        a1, a1, 1         # find the last position of the string
+        addi        a2, a2, 1
+        lb          t0, 0(a1)
         bne         t0, x0, findend
-loop1:                             
-        addi        a0, a0, -1        # s--
-        addi        a4, a4, -1        # the last position is not space
-        lb          t0, 0(a0)         # t0 = s[i]
-        beq         t0, a2, loop1     # while(char[i] == " ")
-        add         a1, x0, a5
-loop2:  
-        beq         a4, x0, return    # if encounter the last position, return
-        addi        a4, a4, -1        
+        li          a3, 32            # store space to register a3
+loop1:
+        # now we reach the end of the string
+        beq         a2, x0, return    # if encounter the last position, return
+        addi        a1, a1, -1        # s--
+        addi        a2, a2, -1        # the last position is not space
+        lb          t0, 0(a1)         # t0 = s[i]
+        beq         t0, a3, loop1     # while(char[i] == " ")
+        add         a0, x0, x0
+loop2:
+        beq         a2, x0, return    # if encounter the last position, return
+        addi        a2, a2, -1
+        addi        a1, a1, -1
         addi        a0, a0, 1         # s++
-        lb          t0, 0(a0)         # t0 = s[i]
-        addi        a3, a3, 1         # length++
-        bne         t0, a2, loop2     
-        addi        a3, x0, 0         # if encounter a space, length = 0
-        j           loop2
+        lb          t0, 0(a1)         # t0 = s[i]
+        bne         t0, a3, loop2     
 return:
-        add         a0, x0, a3
         ret
-
 
 print_result:
         add         s0, x0, a0
