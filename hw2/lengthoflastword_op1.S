@@ -7,12 +7,8 @@
 .set SYSWRITE, 64
 
 .data
-str1:       .string "                aaaa                "
+str1:       .string ""
             .set str1len, .-str1
-str2:       .string "aaaaaaaa                    aaaaaaaa"
-            .set str2len, .-str2
-str3:       .string "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa a "
-            .set str3len, .-str3
 fstr:       .string "For string \""
             .set flen, .-fstr
 answrstr:   .string "\", length of last word : "
@@ -27,26 +23,6 @@ _start:
         la          a0, str1
         # find the position of the last letter is not space
         jal         ra, lengthoflastword        # call strlen()
-        add         a2, x0, a0
-        la          a0, str1
-        li          a1, str1len
-        jal         print_result
-
-        la          a0, str2
-        # find the position of the last letter is not space
-        jal         ra, lengthoflastword        # call strlen()
-        add         a2, x0, a0
-        la          a0, str2
-        li          a1, str2len
-        jal         print_result
-
-        la          a0, str3
-        # find the position of the last letter is not space
-        jal         ra, lengthoflastword        # call strlen()
-        add         a2, x0, a0
-        la          a0, str3
-        li          a1, str3len
-        jal         print_result
 
         li          a0, 0             # return value is 0
         li          a7, SYSEXIT       # end
@@ -120,43 +96,4 @@ loop2:
         lb          t0, 0(a3)         # t0 = s[i]
         bne         t0, a2, loop2     
 return:
-        ret
-
-print_result:
-        add         s0, x0, a0
-        add         s1, x0, a1
-        add         s2, x0, a2
-        li          a7, SYSWRITE
-        li          a0, 1             # print For string : "
-        la          a1, fstr
-        la          a2, flen
-        ecall
-
-        li          a7, SYSWRITE
-        li          a0, 1             # print i am a student  
-        add         a1, x0, s0
-        add         a2, x0, s1
-        ecall
-
-        li          a7, SYSWRITE
-        li          a0, 1             # print ", length of last word is   
-        la          a1, answrstr
-        li          a2, answrlen
-        ecall
-
-        li          a7, SYSWRITE
-        addi        a1, s2, 48        # get length
-        addi        sp, sp, -4
-        sw          a1, 0(sp)         # store answer in stack
-        li          a0, 1             # print answer
-        addi        a1, sp, 0
-        li          a2, 4
-        ecall
-        addi        sp, sp, 4
-
-        li          a7, SYSWRITE
-        li          a0, 1             # print new line
-        la          a1, newline       
-        li          a2, nllen
-        ecall
         ret
